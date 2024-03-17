@@ -51,28 +51,30 @@ public class CteService {
 
 
         int pageNumber2 = 0;
-        int pageSize2 = 0;
+        int pageSize2 = 100;
 
         int[] index = { 0 };
 
         Integer totalElementos = cteRepository.buscarTotalRegistros(inicio,dataFinal);
 
         ExecutorService executor = Executors.newFixedThreadPool(4);
-        CountDownLatch latch = new CountDownLatch(totalElementos);
+        CountDownLatch latch = new CountDownLatch(0);
 
 
             while (index[0] < totalElementos){
 
-                List<Tuple> list = cteRepository.buscarRelatorioCte(inicio,dataFinal, pageSize2);
+                Pageable pageable = PageRequest.of(pageNumber2,pageSize2);
+
+                Page<Tuple> list = cteRepository.buscarRelatorioCte(inicio,dataFinal, pageable);
 
 
 
             list.forEach(c->{
                 if (c != null ){
                     CteDTO cteDTO = new CteDTO();
-        //              cteDTO.setXml(clobToString(i.get("xml", Clob.class)));
-                    cteDTO.setChave(c.get("CHAVE", String.class));
-                    cteDTO.setDataProcessamento(c.get("DATA",Timestamp.class));
+                      cteDTO.setXml(clobToString(c.get("xml", Clob.class)));
+//                    cteDTO.setChave(c.get("CHAVE", String.class));
+//                    cteDTO.setDataProcessamento(c.get("DATA",Timestamp.class));
                     cteDTOS.add(cteDTO);
 
                 }
@@ -96,7 +98,7 @@ public class CteService {
 
 
                 pageNumber2 = pageNumber2+1;
-                pageSize2 = pageSize2+100;
+//                pageSize2 = pageSize2+100;
 
 
 

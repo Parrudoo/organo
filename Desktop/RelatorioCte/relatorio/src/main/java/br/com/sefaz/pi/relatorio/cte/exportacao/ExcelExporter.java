@@ -23,7 +23,7 @@ public class ExcelExporter {
         Sheet sheet = workbook.createSheet("Pessoas");
 
         // Cabeçalhos das colunas
-        String[] headers = {"Chave","Data Processamento"};
+        String[] headers = {"XML"};
         Row headerRow = sheet.createRow(0);
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
@@ -33,8 +33,8 @@ public class ExcelExporter {
         int rowNum = 1;
         for (CteDTO cteDTO : cteDTOS) {
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(cteDTO.getChave());
-            row.createCell(1).setCellValue(cteDTO.getDataProcessamento());
+            row.createCell(0).setCellValue(cteDTO.getXml());
+//            row.createCell(1).setCellValue(cteDTO.getDataProcessamento());
 //            row.createCell(2).setCellValue(person.getEmail());
         }
 

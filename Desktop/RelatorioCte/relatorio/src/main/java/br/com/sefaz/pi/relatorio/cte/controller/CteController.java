@@ -39,7 +39,7 @@ public class CteController {
 
 
         LocalDate dataInicio = LocalDate.of(2023,1,1);
-        LocalDate dataFinal = LocalDate.of(2023,1,10);
+        LocalDate dataFinal = LocalDate.of(2023,1,4);
 
         long diferencaEmDias = ChronoUnit.DAYS.between(dataInicio, dataFinal);
 

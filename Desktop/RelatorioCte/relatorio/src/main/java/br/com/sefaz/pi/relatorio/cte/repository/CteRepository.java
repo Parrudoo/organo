@@ -17,19 +17,12 @@ import java.util.List;
 
 public interface CteRepository extends PagingAndSortingRepository<Cte,Long> {
 
-    @Query(nativeQuery = true, value = "SELECT *\n" +
-            "FROM (\n" +
-            "    SELECT XMLSerialize(DOCUMENT tc.TCT_XML_CTE) AS xml,tc.TCT_DATA_PROC AS data ,tc.TCT_CHAVE_CTE AS chave,\n" +
-            "           ROW_NUMBER() OVER (ORDER BY tc.TCT_DATA_PROC ASC ) AS row_num\n" +
-            "    FROM APL_NFE.TAB_CTE tc\n" +
-            "    WHERE tc.TCT_DATA_PROC BETWEEN :inicio AND :dataFinal\n" +
-            ") \n" +
-            "WHERE row_num >= :count\n" +
-            "FETCH NEXT 100 ROWS ONLY")
-    List<Tuple> buscarRelatorioCte(@Param("inicio") LocalDate inicio, @Param("dataFinal") LocalDate dataFinal,@Param("count") Integer count);
+    @Query(nativeQuery = true, value = "SELECT XMLSerialize (DOCUMENT tc.TCT_XML_CTE ) as xml,tc.TCT_CHAVE_CTE FROM APL_NFE.TAB_CTE tc\n" +
+            "WHERE tc.TCT_DATA_PROC BETWEEN to_date('01/01/2023', 'DD-MM-YYYY') AND TO_DATE('02/01/2023', 'DD-MM-YYYY')")
+    Page<Tuple> buscarRelatorioCte(@Param("inicio") LocalDate inicio, @Param("dataFinal") LocalDate dataFinal,Pageable pagina);
 
 
-    @Query(nativeQuery = true, value = " SELECT COUNT(*) FROM  APL_NFE.TAB_CTE tc \n" +
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM  APL_NFE.TAB_CTE tc \n" +
             "WHERE tc.TCT_DATA_PROC BETWEEN :inicio AND :dataFinal")
     Integer buscarTotalRegistros(@Param("inicio") LocalDate inicio, @Param("dataFinal") LocalDate dataFinal);
 
